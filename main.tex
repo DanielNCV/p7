@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{multicol}
+\usepackage{enumerate}
 
 \title{\textbf{Extending the BDI Model with Q-learning in Uncertain
 Environment}}
@@ -64,7 +65,6 @@ Intelligence (ACAI’18). Sanya, China, 6 pages.
 
 
 \section{Introduction}
-\label{agradecimientos}
 The research on agents, acting in an uncertain and dynamic
 environment is a challenge, BD I [1] agents is designed for agentorient programming model and build multi-agent systems. BDI
 model is concerned with agent’s rule description and logic
@@ -115,7 +115,6 @@ evaluates and analyzes the results of experiment. Section VI
 summarizes our research and point to possible future developments.
 
 \section{Related Works}
-\label{introduccion}
 The inference mechanism in BDI model is based on the preset
 environment, so the BDI system lacks the planning under
 unknown environment. For the known environment model, there
@@ -151,31 +150,144 @@ learning is used to generate action selector according to the
 excitation signal which finally enables the agent to perform the
 task efficiently in complex and unknown environment, this
 method enables the Agent to learn the human’s perception and 
+decision. But the human resource is consumed by the human
+being as the trainer.
+Compared with the above method, this study avoids the unit of
+plan with the state as the plan and the decision- making in the
+unknown environment will become a plan which added to the
+plan library after the Q-learning algorithm has explored the
+environment. The plan is the unit after learning which avoids the
+problem of oversize planning library, and the state of agent is
+easy to define.
+\section{Background}
+\subsection{ BDI-Agent and AgentSpeak(L)}
+Programming paradigm based on agent gives higher intelligent
+computer software module and adaptive ability, BDI is an agent
+oriented programming model which is composed of Belief, Desire
+and Intention. The belief includes the environmental information
+acquired by the agent from the environment, the information of its
+own operation and the information received from other agents.
+The desire represents the possible state of the agent when
+performing task, which is driven by intention in the actual
+operation. The intention represents the state that the agent decides
+to achieve in the actual operation of the agent. There are two types
+of intention one of which is the target to be executed by the agent,
+and another is the plan based on the context matching in the BDI
+model. The BDI conceptual model is described as follows: agent
+initializes beliefs and intentions, then perceives environmental
+information. By belief update function, belief is update.
+According to the current intentions and beliefs, some desires are
+selected as a candidate, one of them can be selected as the
+execution plan through the matching rules that have been
+designed in advance. Agent finish the task by the plan. BDI model
+is a conceptual model in which the agent has basic logical
+reasoning ability.
+ASL (Agent Speak Language)[12] is extended on the basis of
+BDI model, and the specific system structure diagram is shown
+in figure 1.
+\begin{enumerate}[1.]
+    \item The agent target and belief library are initialized, the belief
+library is updated by the BRF (Belief Revision Function)
+according to the target agent perceives information from the
+environment or from other agents.
+    \item The agent cognitive the environment changes, and updates
+the belief library and verify whether the change triggers the
+event in the plan library. When multiple events are triggered
+simultaneously, the sequence of event execution is
+determined by the SE function
+    \item According to the trigger event, the predicate symbol is
+matched in plan library. For example, if default trigger
+event in the plan library is +color(Object,color). When
+agent perceives the blue box from the environment, the data
+will be transformed into expression +color
+(box1,blue)[source(percept)], then after SE(Select Event)
+is used to match trigger event,box1 Object, blue
+Color. The applicable plan will be matched, and the value of Object and Color is instantiated into box1 and blue entities
+in the plan.
+    \item Select a plan through the S0 function which context is
+matched in the applicable plan, the plan structure is
+triggerevent:context->body, body content includes the
+action sequence, subtarget and child trigger event.
+    \item According to the context, such as box1 = 1 m , context
+expression Object > 0.5 m , and there may be subgoal which
+is matched similarly in body. The plans that conform to
+context are pushed into the stack of intent. The agent
+performs the action in turn to pop up the stack. When the
+stack is empty, the system enters the next loop.
+\end{enumerate}
+AgentSpeak(L) builds a multi-agent system based on BDI
+model, which facilitates the programming and research of Agent.
+This study mainly focuses on the improvement of ASL which is
+the implementation model of BDI.
+
+\subsection{ RL and Q-learning}
+Reinforcement learning is completely different from other
+machine learning algorithms such as supervised learning and
+unsupervised learning. It requires interaction with the
+environment and obtains “experience” from the environment.
+Most of the reinforcement learning adopts Markov model of
+which the most important feature is that the next step in the
+current state is not relevant to the past, RL can be described in the
+Markov decision process. The definition of Markov decision
+process is as follow S
+is the state set of
+agent. A
+denotes the action set of agent.
+P
+represents the transfer
+probability between states, r is the immediate reward of a state
+transition 
+is a discount factor, N is the number of steps
+from the initial state to the final state. The cumulative reward
+denote with The goal of reinforcement learning is to find
+the optimal strategy to maximize the cumulative reward value of
+the function which denote with represents the
+behavior trajectory of the agents
+Q-learning algorithm which is one of the RL is mainly used for
+agent decision learning under the model in which agent does not
+know the information of environment. Q-learning utilize the statebehavior function Q(s,a) to indicate the cumulative reward of the
+new state to the final state when the state s performs action a, and the maximum value of Q(s,a) is updated every time the state is
+passed. Its iterative update equation is given in equation (1):
+obtained by performing the action at time t.
+Q , k (s at t) represents
+the cumulative value of the last time the Agent passed the state
+learning is a greedy strategy algorithm. The value of Q(s, a) tends
+to be stable after the finite iteration of formula (1), the maximum
+current state Q value in the Q table is selected until the final state
+is reached to form the optimal strategy.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.3\textwidth]{imagenes/koala.jpg}
-\caption{Imagen de Ejemplo}
+\includegraphics[width=0.3\textwidth]{fig1.png}
+\caption{ASL Arquitecture}
 \label{figura1}
 \end{figure}
 
 
-\subsection{Objetivo}
-Como se vio en la sección \ref{introduccion} es posible utilizar. $x \leftarrow \sqrt{a * \alpha} \sum_{n=1}^{10}{u*5}$
-Este es un ejemplo de sección para el documento de ejemplo. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+\section{The ASL Optimal Decision Algorithm Based On
+Q-learning}
+he ASL reasoning model is shown in figure 1. The context of an
+agent consists of trigger events and environmental information.
+But in an uncertain environment, there be no plan for matching
+context, another problem is that agent need to consider which plan
+is the best when multiple contexts are matched in plan library. In
+view of the above problems, this paper proposes an ASL optimal
+decision algorithm based on q-learning by which BDI agent
+improve the plan library in ASL. This study mainly improves the
+planning library from two aspects. (i) For multiple plan decision
+problems, the task is completed at each times, the cumulative
+reward value is recorded and compared with the latest plan.
+Choose the plan with the largest cumulative reward as the next
+execution plan. (ii) In the uncertain environment, agents explore
+the environment and accept the feedback of the environment. By
+using q-learning algorithm training, the best sequence of actions is
+completed and the plan is added to the plan library.
+The detailed algorithm of ASL optimal decision improvement
+algorithm improvement details are shown in figure 2. In the initial
+environment model, because RL is based on markov decision
+model，you need to define the state s that the agent may exist, the
+corresponding reward value r, the plan library Pu and trigger
+event E.
 
-\section{Trabajos Relacionados}
-\label{trabajos}
-En la Fig. \ref{figura1} se muestra un koala como ejemplo de imagen.  Este es un ejemplo de sección para el documento de ejemplo. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
-Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
 
 \end{document}
