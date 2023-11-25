@@ -1,0 +1,181 @@
+\documentclass{article}
+\usepackage{multicol}
+
+\title{\textbf{Extending the BDI Model with Q-learning in Uncertain
+Environment}}
+\date{}
+
+\usepackage{graphicx}
+
+\begin{document}
+\maketitle
+
+\section*{}
+
+\begin{multicols}{3}
+  \textbf{Qian Wan†} \\
+  Hubei Province Key Laboratory \\
+  of Intelligent Robot\\
+  School of Computer Science and\\
+  Engineering, Wuhan Institute of\\
+  Technology \\
+  Wuhan, China
+ \\
+  \columnbreak
+
+  \textbf{Wei Liu} \\
+  Hubei Province Key Laboratory\\
+  of Intelligent Robot\\
+  School of Computer Science and\\
+  Engineering, Wuhan Institute of\\
+  Technology\\
+  Wuhan, China\\
+
+  \columnbreak
+
+  \textbf{Longlong Xu} \\
+  Hubei Province Key Laboratory\\
+  of Intelligent Robot\\
+  School of Computer Science and\\
+  Engineering, Wuhan Institute of\\
+  Technology\\
+  Wuhan, China\\
+  % Agrega más autores según sea necesario
+\end{multicols}
+
+\section*{ABSTRACT}
+The BDI model has solved the problem of reasoning and decisionmaking of agents in a particular environment by procedure
+reasoning. But in uncertain environment which the context is
+unknown the BDI model is not applicable, because in BDI model
+the context must be matched in plan library. To address this issue,
+in this paper we propose a method extending the BDI model with
+Q-learning which is one algorithm of reinforcement learning, and
+make an improvement to the decision-making mechanism on the
+ASL as a implement model of BDI. Finally we completed the
+simulation of maze on Jason simulation platform to verify the
+feasibility of the method.
+\section*{KEYWORDS}
+BDI model, Agent, Q-learning, Jason, Plan Library\\
+\textbf{ACM Reference format:}
+Qian Wan, Wei Liu, Longlong Xu and Jingzhi Guo. 2018. Extending the
+BDI Model with Q-learning in Uncertain Environment. In Proceedings of
+2018 International Conference on Algorithms, Computing and Artificial
+Intelligence (ACAI’18). Sanya, China, 6 pages.
+
+
+\section{Introduction}
+\label{agradecimientos}
+The research on agents, acting in an uncertain and dynamic
+environment is a challenge, BD I [1] agents is designed for agentorient programming model and build multi-agent systems. BDI
+model is concerned with agent’s rule description and logic
+reasoning in multi-agent systems. However these two factors are
+based on context and must be designed in advance.
+Reinforcement learning [2] (RL) is applied to solve this problem
+that BDI agent don’t know environmental model. RL assumes
+that an agent is using observed rewards that are perceived from
+the environment to measure its utility following its actions in an
+uncertain and dynamic environment. According to reward value,
+the agent can determine the sequence of actions though in
+uncertain environment.
+BDI concepts used to describe people's behavior and intention
+at first, then was introduced into artificial intelligence, and the
+earliest BDI abstract model was put forward by Georgeff. On
+the basis of the model, different Procedure Reasoning System
+(PRS) are designed for reasoning. Based on PRS mode, the
+researchers developed the Multi-Agent System (MAS) based on
+BDI model including JACK [3], DECAF [4], IRMA [5],
+JADEX [6],ASL [7], etc. Because the ASL which has been
+added with the plan library on the foundation model of BDI has
+a simulation system and a better extension interface, we see
+ASL as a starting point for studying the BDI model. The plan
+problem of the agent in uncertain environment, so our research
+is aimed at improving the planning part of the ASL which is the
+implementation model of the BDI Agent.
+RL is learning to map situations to actions so as to maximize
+a numerical reward. Without knowing which actions to take, the
+learner must discover which actions yield the most reward by
+trying them. Actions may affect not only the immediate reward
+but also the next situation and all subsequent rewards. Agent in
+RL has the ability of learning and planning, but lacks the logic
+and reasoning ability of BDI Agent.RL can be divided into two
+types by the: model-based and model-free, model-free RL is
+mainly used to solve the planning of agents in situations where
+environmental information is not known, Q-learning is one of
+non-model algorithm that has high learning efficiency.
+Therefore, this study put forward the method which can solve the
+problem that BDI Agent can't decision under dynamic and
+uncertain environment by RL.
+The structure of this paper is as follows. After this introductory
+section, we follow in Section II with a brief discussion of related
+works. Section III introduces BDI Agent and AgentSpeak(L), RL
+and q-learning algorithm. Section IV describes our method that
+decision improvement algorithm based on q-learning in ASL
+system. Section V describes the simulation experiment and
+evaluates and analyzes the results of experiment. Section VI
+summarizes our research and point to possible future developments.
+
+\section{Related Works}
+\label{introduccion}
+The inference mechanism in BDI model is based on the preset
+environment, so the BDI system lacks the planning under
+unknown environment. For the known environment model, there
+have been many methods are used to solve the planning in which
+including decision tree, self-aware neural network, and rules
+learning algorithm are used to optimize the Agent’s decision.
+Pereira apply Markov decision process to generate the optimal
+strategy of BDI plan, but the method in unknown environments is
+difficult to build Markov environment model, so these methods do
+not apply in unknown environment information.
+For the unknown environment model, the self-adaptive research
+of agent in the unknown environment of BDI model has been paid
+more attention. Google recently proposed a method that building
+the BDI model of Agent by deep reinforcement learning to
+understand the current real intention of Agent in order to improve
+its planning [8], J. L. Feliu propose to have an offline training
+session for plan generation in an uncertain and dynamic
+environment, the use of Q-learning from training sessions
+consisting of interactions between agent and environment
+generates plans for agents in ASL[9]. Although this method has
+solved the problem that agents know how to act when considering
+the efficiency of achieving goals in every state under uncertain
+environment, but when the state set is too large, quantity of
+generated plan will be explosive which lead to deviation that
+agents focus on the internal logic in original BDI model. Joost
+Broekens propose to solve the problem for selection of rules of
+which priority is learned by RL, and to use a state to represent
+independent heuristic rules on active targets [10]. However, it is
+difficult for agents to express the state in dynamic environment.
+Autonomous Agent mentioned in the literature [11], incentive
+signal of agent's behavior is given by the person. Supervised
+learning is used to generate action selector according to the
+excitation signal which finally enables the agent to perform the
+task efficiently in complex and unknown environment, this
+method enables the Agent to learn the human’s perception and 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.3\textwidth]{imagenes/koala.jpg}
+\caption{Imagen de Ejemplo}
+\label{figura1}
+\end{figure}
+
+
+\subsection{Objetivo}
+Como se vio en la sección \ref{introduccion} es posible utilizar. $x \leftarrow \sqrt{a * \alpha} \sum_{n=1}^{10}{u*5}$
+Este es un ejemplo de sección para el documento de ejemplo. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+
+\section{Trabajos Relacionados}
+\label{trabajos}
+En la Fig. \ref{figura1} se muestra un koala como ejemplo de imagen.  Este es un ejemplo de sección para el documento de ejemplo. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+Este es un ejemplo de sección para el documento de ejemplo de latex el curso. 
+
+\end{document}
