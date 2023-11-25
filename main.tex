@@ -1,49 +1,38 @@
 \documentclass{article}
+\usepackage[left=1.9cm, right=1.9cm, top=2cm, bottom=2.5cm]{geometry}
 \usepackage{multicol}
 \usepackage{enumerate}
-
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{ragged2e}
 \title{\textbf{Extending the BDI Model with Q-learning in Uncertain
 Environment}}
 \date{}
-
-\usepackage{graphicx}
-
 \begin{document}
 \maketitle
-
-\section*{}
-
+\centering
 \begin{multicols}{3}
-  \textbf{Qian Wan†} \\
-  Hubei Province Key Laboratory \\
-  of Intelligent Robot\\
-  School of Computer Science and\\
-  Engineering, Wuhan Institute of\\
-  Technology \\
+\textbf{Qian Wan†} \\
+  Hubei Province Key Laboratory of Intelligent Robot\\
+  School of Computer Science and Engineering, Wuhan Institute of Technology\\
   Wuhan, China
- \\
-  \columnbreak
+\vfill\columnbreak
 
-  \textbf{Wei Liu} \\
-  Hubei Province Key Laboratory\\
-  of Intelligent Robot\\
-  School of Computer Science and\\
-  Engineering, Wuhan Institute of\\
-  Technology\\
-  Wuhan, China\\
+\textbf{Wei Liu} \\
+  Hubei Province Key Laboratory of Intelligent Robot\\
+  School of Computer Science and Engineering, Wuhan Institute of Technology\\
+  Wuhan, China
+\vfill\columnbreak
 
-  \columnbreak
+\textbf{Longlong Xu} \\
+  Hubei Province Key Laboratory of Intelligent Robot\\
+  School of Computer Science and Engineering, Wuhan Institute of Technology\\
+  Wuhan, China
 
-  \textbf{Longlong Xu} \\
-  Hubei Province Key Laboratory\\
-  of Intelligent Robot\\
-  School of Computer Science and\\
-  Engineering, Wuhan Institute of\\
-  Technology\\
-  Wuhan, China\\
-  % Agrega más autores según sea necesario
 \end{multicols}
+\justify
 
+\begin{multicols}{2}
 \section*{ABSTRACT}
 The BDI model has solved the problem of reasoning and decisionmaking of agents in a particular environment by procedure
 reasoning. But in uncertain environment which the context is
@@ -62,6 +51,9 @@ Qian Wan, Wei Liu, Longlong Xu and Jingzhi Guo. 2018. Extending the
 BDI Model with Q-learning in Uncertain Environment. In Proceedings of
 2018 International Conference on Algorithms, Computing and Artificial
 Intelligence (ACAI’18). Sanya, China, 6 pages.
+†Corresponding author: 1007831839@qq.com
+Permission to make digital or hard copies of all or part of this work for personal or
+classroom use is granted without fee provided that copies are not made or
 
 
 \section{Introduction}
@@ -204,16 +196,9 @@ will be transformed into expression +color
 is used to match trigger event,box1 Object, blue
 Color. The applicable plan will be matched, and the value of Object and Color is instantiated into box1 and blue entities
 in the plan.
-    \item Select a plan through the S0 function which context is
-matched in the applicable plan, the plan structure is
-triggerevent:context->body, body content includes the
-action sequence, subtarget and child trigger event.
-    \item According to the context, such as box1 = 1 m , context
-expression Object > 0.5 m , and there may be subgoal which
-is matched similarly in body. The plans that conform to
-context are pushed into the stack of intent. The agent
-performs the action in turn to pop up the stack. When the
-stack is empty, the system enters the next loop.
+    \item Select a plan through the $S_0$ function which context is matched in the applicable plan, the plan structure is \textit{trigger event:context -$>$ body, body} content includes the action sequence, subtarget and child trigger event.
+
+    \item According to the context, such as \textit{boxl $=1 \mathrm{~m}^2$}, context expression\textit{ Object $>0.5 \mathrm{~m}^2$}, and there may be subgoal which is matched similarly in body. The plans that conform to context are pushed into the stack of intent. The agent performs the action in turn to pop up the stack. When the stack is empty, the system enters the next loop.
 \end{enumerate}
 AgentSpeak(L) builds a multi-agent system based on BDI
 model, which facilitates the programming and research of Agent.
@@ -229,29 +214,30 @@ Most of the reinforcement learning adopts Markov model of
 which the most important feature is that the next step in the
 current state is not relevant to the past, RL can be described in the
 Markov decision process. The definition of Markov decision
-process is as follow S
+process is as follow \textit{$M=(S, A, P, r, \gamma, N)$  S}
 is the state set of
-agent. A
-denotes the action set of agent.
-P
+agent. \textit{A} denotes the action set of agent. P
 represents the transfer
 probability between states, r is the immediate reward of a state
-transition 
+transition $\gamma \in [0,1]$
 is a discount factor, N is the number of steps
 from the initial state to the final state. The cumulative reward
-denote with The goal of reinforcement learning is to find
-the optimal strategy to maximize the cumulative reward value of
-the function which denote with represents the
-behavior trajectory of the agents
+denote with $R=\sum_{n=0}^N \gamma^t r_t$ The goal of reinforcement learning is to find
+the optimal strategy to maximize the cumulative reward of a state transition value of
+the function which denote with $\max _\pi \int R(\tau) P_\pi(\tau) d \tau, \tau$ represents the
+behavior trajectory of the agents $\tau=\left(\mathrm{s}_0, \mathrm{a}_0, \mathrm{~s}_1, \mathrm{a}_1, \ldots ..\right)$
 Q-learning algorithm which is one of the RL is mainly used for
 agent decision learning under the model in which agent does not
 know the information of environment. Q-learning utilize the statebehavior function Q(s,a) to indicate the cumulative reward of the
 new state to the final state when the state s performs action a, and the maximum value of Q(s,a) is updated every time the state is
-passed. Its iterative update equation is given in equation (1):
-obtained by performing the action at time t.
-Q , k (s at t) represents
-the cumulative value of the last time the Agent passed the state
-learning is a greedy strategy algorithm. The value of Q(s, a) tends
+passed. Its iterative update equation is given in equation (1):\\
+$\mathrm{Q}_{\mathrm{k}+1}\left(S_t, a_t\right)=\mathrm{Q}_{\mathrm{k}}\left(S_t, a_t\right)+\alpha\left(\mathrm{r}_{t+1}+\gamma \max _a \mathrm{Q}_k\left(S_{t+1}, a\right)-\mathrm{Q}_k\left(\mathbf{S}_{\mathrm{t}}, a_t\right)\right)$ \\
+
+$\mathrm{Q}_{\mathrm{k}+1}\left(S_t, a_t\right)$ represents the value of the updated cumulative reward
+obtained by performing the action at time t. $\mathrm{Q}_{\mathrm{k}}\left(S_t, a_t\right)$
+represents
+the cumulative value of the last time the Agent passed the state.
+$\alpha \in(0,1)$, the larger $\alpha$ is, the later reward is more considered. $\mathrm{r}_{t+1}$ represents the value of the reward obtained when $S_t$ performs action a to $S t+1 . \gamma$ is the discount cumulative reward. $\max _a \mathrm{Q}_k(s t+1, a)$ denotes the maximum value at $S_{t+1}$ in Q table. Q-  learning is a greedy strategy algorithm. The value of Q(s, a) tends
 to be stable after the finite iteration of formula (1), the maximum
 current state Q value in the Q table is selected until the final state
 is reached to form the optimal strategy.
@@ -286,8 +272,32 @@ The detailed algorithm of ASL optimal decision improvement
 algorithm improvement details are shown in figure 2. In the initial
 environment model, because RL is based on markov decision
 model，you need to define the state s that the agent may exist, the
-corresponding reward value r, the plan library Pu and trigger
-event E.
+corresponding reward value \textit{r}, the plan library \textit{Pu} and trigger
+event \textit{E}.\\
+\begin{tikzpicture}
+  \draw[line width=2pt, color=black] (0,0) -- (8.5,0);
+\end{tikzpicture}
+ASL optimal decision algorithm based on q-learning:\\
+\begin{tikzpicture}
+  \draw[line width=0.5pt, color=black] (0,0) -- (8.5,0);
+\end{tikzpicture} \\
+Input: $\mathrm{E} \quad / * \mathrm{E}$ are initial trigger event$* /$ \\
+$\mathrm{P} \quad / * \mathrm{Pu}$ are initial plans in library */ \\
+$\mathrm{Su}, \mathrm{rt} / * \mathrm{Su}$ is set of states, rt are reward */\\
+output: $\pi \quad / * \pi$ is the agent's strategy $* /$\\
+\begin{tikzpicture}
+  \draw[line width=2pt, color=black] (0,0) -- (8.5,0);
+\end{tikzpicture}\\
+1: if match(E,P) \\
+2:$\mathrm{N}++; / *$ calculate number of matched plan */ \\
+3:if $(\mathrm{N}==1)$ 
+\end{multicols}
+\begin{tikzpicture}
+  \draw[line width=2pt, color=black] (0,0) -- (8.5,0);
+\end{tikzpicture}
+
+
+\end{document}
 
 
 \end{document}
